@@ -1,27 +1,37 @@
-﻿using employee_raffles.Models;
+﻿using employee_raffles.Data;
+using employee_raffles.Models;
+using employee_raffles.Models.ViewModels;
+using employee_raffles.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace employee_raffles.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext context;
+        private readonly IDefaultService defaultService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, IDefaultService defaultService) : base(context, defaultService)
         {
-            _logger = logger;
+            this.context = context;
+            this.defaultService = defaultService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            ViewData["Employees"] = await GetAllEmployeesAsync();
+
+            return View("Index");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
+
+
+
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
