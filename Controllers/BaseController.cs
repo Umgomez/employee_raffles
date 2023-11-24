@@ -16,8 +16,8 @@ public class BaseController : Controller
         this.defaultService = defaultService;
     }
 
-    public async Task<dynamic> GetAllEmployeesAsync()
+    public async Task<dynamic> GetRandomEmployeeAsync()
     {
-        return await defaultService.GetEmployees();
+        return await defaultService.GetRandomEmployee();
     }
 }

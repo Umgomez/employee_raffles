@@ -1,9 +1,9 @@
 ﻿using employee_raffles.Data;
 using employee_raffles.Models;
-using employee_raffles.Models.ViewModels;
 using employee_raffles.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+
 
 namespace employee_raffles.Controllers
 {
@@ -18,17 +18,18 @@ namespace employee_raffles.Controllers
             this.defaultService = defaultService;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult Index()
         {
-            ViewData["Employees"] = await GetAllEmployeesAsync();
-
-            return View("Index");
+            return View();
         }
 
-
-
-
-
+        [System.Web.Mvc.AcceptVerbs("Get", "Post")]
+        public async Task<dynamic> GetWinner()
+        {
+            dynamic RandomEmployee = await GetRandomEmployeeAsync();
+            dynamic winner = await defaultService.GetEmployeeById(RandomEmployee.Data[0]["EmpleadoID"]);
+            return new JsonResult(new { aadata = winner });
+        }
 
 
 
