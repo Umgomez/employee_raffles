@@ -11,7 +11,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Employees> Employees { get; set; }
     #endregion
 
-    [Obsolete]
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Default

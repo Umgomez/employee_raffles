@@ -1,1 +1,1 @@
-SELECT TOP 1 e.EmpleadoID FROM dbo.Empleados e WHERE e.Asistencia = 1 AND e.SelRifa = 0 ORDER BY NEWID()
+SELECT TOP 1 e.EmpleadoID FROM dbo.Employees e WHERE e.Asistencia = 1 AND e.SelRifa = 0 ORDER BY NEWID()

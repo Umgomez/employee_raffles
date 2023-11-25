@@ -4,12 +4,13 @@ namespace employee_raffles.Models.Default;
 
 public class EmployeesConfiguration
 {
-    [Obsolete]
     public static void Configure(ModelBuilder mb)
     {
         mb.Entity<Employees>(opt => {
-            opt.ToTable("Empleados");
+            opt.ToTable("Employees");
             opt.HasKey(x => x.EmpleadoID);
+            opt.Property(x => x.Tarjeta)
+              .HasMaxLength(10);
             opt.Property(x => x.Nombres)
               .HasMaxLength(50);
             opt.Property(x => x.Apellidos)
@@ -18,12 +19,13 @@ public class EmployeesConfiguration
               .HasMaxLength(50);
 
             #region Constranints
-            opt.HasIndex(x => new { x.Nombres, x.Apellidos, x.Cedula })
-              .HasDatabaseName("UQ_Empleados")
+            opt.HasIndex(x => new { x.Tarjeta, x.Nombres, x.Apellidos, x.Cedula })
+              .HasDatabaseName("UQ_Employees")
               .IsUnique();
-            opt.HasCheckConstraint("CHK_Empleados_Nombres", "Nombres <> ''");
-            opt.HasCheckConstraint("CHK_Empleados_Apellidos", "Apellidos <> ''");
-            opt.HasCheckConstraint("CHK_Empleados_Cedula", "Cedula <> ''");
+            opt.HasCheckConstraint("CHK_Employees_Tarjeta", "Tarjeta <> ''");
+            opt.HasCheckConstraint("CHK_Employees_Nombres", "Nombres <> ''");
+            opt.HasCheckConstraint("CHK_Employees_Apellidos", "Apellidos <> ''");
+            opt.HasCheckConstraint("CHK_Employees_Cedula", "Cedula <> ''");
             #endregion
         });
     }

@@ -116,6 +116,7 @@
                             </div>
                             <div class="col-lg-12 p-5">
                                 <div class="row">
+                                    <input id="empId" type="hidden" name="empId" />
                                     <h1><span id="nombreApellido"></span></h1>
                                 </div>
                             </div>
@@ -146,49 +147,61 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            var timer = document.getElementById('timer');
-            var btnGetWinner = document.getElementById('btnGetWinner');
-            var btnCloseModal = document.getElementById('close');
-            var nombreApellido = document.getElementById('nombreApellido');
+            let timer = document.getElementById('timer');
+            let btnGetWinner = document.getElementById('btnGetWinner');
+            let btnCloseModal = document.getElementById('close');
+            let nombreApellido = document.getElementById('nombreApellido');
+            let empId = document.getElementById('empId');
 
             btnGetWinner.addEventListener("click", function () {
                 if (timer.classList.value == 'bg-holder invisible') {
                     // Si el Reloj no se ve muestralo por un intervalo de tiempo luego ejecuta el modal
-
-
-                    //timer.classList.remove("invisible");
-                    //timer.classList.add("visible");
-                    //setTimeout(function () {
+                    timer.classList.remove("invisible");
+                    timer.classList.add("visible");
+                    setTimeout(function () {
                         timer.classList.remove("visible");
                         timer.classList.add("invisible");
                         $('#staticBackdrop').modal('show');
 
-                        // setTimeout(function () {
-                        //     // Ejecutar metodo para buscar el ganador
-                            console.log("Se ejecuto el metodo para buscar el ganador");
+                        setTimeout(function () {
+                            // Ejecutar metodo para buscar el ganador
+                            //console.log("Se ejecuto el metodo para buscar el ganador");
                             $.ajax({
-                                url: '@Url.Action("GetWinner", "Home")',
                                 type: 'POST',
+                                url: '@Url.Action("GetWinner", "Home")',
                                 dataType: 'JSON',
                                 contentType: 'application/json',
                                 success: function (res) {
                                     JSON.stringify({ res });
-                                    //console.log(res.aadata.data[0].Apellidos);
-                                    //console.log(nombreApellido.innerHTML);
                                     nombreApellido.innerHTML = res.aadata.data[0].Nombres + ' ' + res.aadata.data[0].Apellidos;
+                                    empId.value = res.aadata.data[0].EmpleadoID;
                                 },
                                 error: function (xhr, ajaxOptions, thrownError) {
                                     console.log(xhr.responseText);
                                 }
                             });
-                        // }, 1000);
-                    //}, 5000);
+                        }, 1000);
+                    }, 5000);
                 }
             }, true);
 
-            btnCloseModal.addEventListener("click", function () { 
-                window.location.reload();
-            }, true);
+            btnCloseModal.addEventListener("click", function () {
+                //console.log("EmpleadoID = " + empId.value);
+                if (empId.value !== null) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("SetWinner", "Home")',
+                        data: { EmpleadoID: empId.value },
+                        success: function (data) {
+                            console.log("Actualizo");
+                            window.location.reload();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+            }, false);
         });
     </script>
 </body>

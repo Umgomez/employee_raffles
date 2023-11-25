@@ -1,1 +1,1 @@
-SELECT e.* FROM dbo.Empleados e WHERE e.EmpleadoID = :EmpleadoID 
+SELECT e.* FROM dbo.Employees e WHERE e.EmpleadoID = :EmpleadoID 
