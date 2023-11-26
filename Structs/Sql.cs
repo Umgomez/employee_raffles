@@ -4,6 +4,10 @@ using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using System.Transactions;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace employee_raffles.Structs;
 

@@ -1,5 +1,6 @@
 ﻿using employee_raffles.Models.Default;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace employee_raffles.Data;
 
