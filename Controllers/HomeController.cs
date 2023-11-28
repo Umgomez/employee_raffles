@@ -20,6 +20,7 @@ public class HomeController : BaseController
         this.defaultService = defaultService;
     }
 
+    [Route("getwinner")]
     public IActionResult Index()
     {
         return View();
@@ -51,6 +52,20 @@ public class HomeController : BaseController
         return View("Index");
     }
 
+    [HttpGet]
+    public async Task<IActionResult> ConfirmarAsistencia()
+    {
+        dynamic employees = await defaultService.GetAttendance();
+        ViewData["Empleados"] = employees;
+        return View();
+    }
+
+    [AcceptVerbs("Get", "Post")]
+    public async Task<dynamic> GetEmployeeByIdentification(string IdentificationNumber)
+    {
+        dynamic employee = await defaultService.GetEmployeeByIdentification(IdentificationNumber);
+        return new JsonResult(new { aadata = employee });
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

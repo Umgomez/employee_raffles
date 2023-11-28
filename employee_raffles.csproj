@@ -31,6 +31,10 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="data\default\GetAttendance.sql" />
+	  <None Remove="data\default\GetEmployeeByIdentification.sql" />
+	</ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>

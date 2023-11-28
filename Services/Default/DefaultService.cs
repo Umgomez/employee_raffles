@@ -9,7 +9,9 @@ namespace employee_raffles.Services;
 public interface IDefaultService
 {
     Task<Return> GetRandomEmployee();
+    Task<Return> GetAttendance();
     Task<Return> GetEmployeeById(int id);
+    Task<Return> GetEmployeeByIdentification(string identification);
 }
 public class DefaultService : IDefaultService
 {
@@ -20,11 +22,20 @@ public class DefaultService : IDefaultService
         this.context = context;
     }
 
-
     public async Task<Return> GetRandomEmployee()
     {
         var sql = new Sql(this.context);
         var file = "GetRandomEmployee";
+        var query = File.ReadAllText($"Data/Default/{file}.sql");
+        var entityData = await sql.OneQuery(query);
+
+        return new Return($"File '{file}' data").SetData(entityData);
+    }
+
+    public async Task<Return> GetAttendance()
+    {
+        var sql = new Sql(this.context);
+        var file = "GetAttendance";
         var query = File.ReadAllText($"Data/Default/{file}.sql");
         var entityData = await sql.OneQuery(query);
 
@@ -37,6 +48,18 @@ public class DefaultService : IDefaultService
         var file = "GetEmployeeById";
         var query = File.ReadAllText($"Data/Default/{file}.sql");
         var data = new Dictionary<string, object> { { "EmpleadoID", id } };
+        query = await sql.QueryFormat(query, data);
+        var entityData = await sql.OneQuery(query);
+
+        return new Return($"File '{file}' data").SetData(entityData);
+    }
+
+    public async Task<Return> GetEmployeeByIdentification(string identification)
+    {
+        var sql = new Sql(this.context);
+        var file = "GetEmployeeByIdentification";
+        var query = File.ReadAllText($"Data/Default/{file}.sql");
+        var data = new Dictionary<string, string> { { "Cedula", identification } };
         query = await sql.QueryFormat(query, data);
         var entityData = await sql.OneQuery(query);
 

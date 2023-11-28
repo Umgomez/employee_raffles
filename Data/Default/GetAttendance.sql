@@ -1,0 +1,1 @@
+SELECT e.* FROM dbo.Employees e WHERE e.Asistencia = 1 ORDER BY e.Nombres

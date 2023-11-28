@@ -10,12 +10,14 @@ public class ApplicationDbContext : DbContext
 
     #region Default
     public DbSet<Employees> Employees { get; set; }
+    public DbSet<Awards> Awards { get; set; }
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Default
         EmployeesConfiguration.Configure(modelBuilder);
+        AwardsConfiguration.Configure(modelBuilder);
         #endregion
 
         base.OnModelCreating(modelBuilder);
