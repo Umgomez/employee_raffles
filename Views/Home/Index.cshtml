@@ -1,5 +1,4 @@
 ﻿@{
-    var employees = ViewData["Employees"];
     Layout = null;
 }
 
@@ -147,7 +146,6 @@
 
             btnGetWinner.addEventListener("click", function () {
                 if (timer.classList.value == 'bg-holder invisible') {
-                    // Si el Reloj no se ve muestralo por un intervalo de tiempo luego ejecuta el modal
                     timer.classList.remove("invisible");
                     timer.classList.add("visible");
                     setTimeout(function () {
@@ -156,8 +154,6 @@
                         $('#staticBackdrop').modal('show');
 
                         setTimeout(function () {
-                            // Ejecutar metodo para buscar el ganador
-                            //console.log("Se ejecuto el metodo para buscar el ganador");
                             $.ajax({
                                 type: 'POST',
                                 url: '@Url.Action("GetWinner", "Home")',
@@ -178,7 +174,6 @@
             }, true);
 
             btnCloseModal.addEventListener("click", function () {
-                //console.log("EmpleadoID = " + empId.value);
                 if (empId.value !== null) {
                     $.ajax({
                         type: 'POST',

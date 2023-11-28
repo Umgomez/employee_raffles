@@ -59,7 +59,7 @@ public class DefaultService : IDefaultService
         var sql = new Sql(this.context);
         var file = "GetEmployeeByIdentification";
         var query = File.ReadAllText($"Data/Default/{file}.sql");
-        var data = new Dictionary<string, string> { { "Cedula", identification } };
+        var data = new Dictionary<string, object> { { "IdentificationNumber", identification } };
         query = await sql.QueryFormat(query, data);
         var entityData = await sql.OneQuery(query);
 

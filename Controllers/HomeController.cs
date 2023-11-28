@@ -53,14 +53,12 @@ public class HomeController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> ConfirmarAsistencia()
+    public IActionResult ConfirmarAsistencia()
     {
-        dynamic employees = await defaultService.GetAttendance();
-        ViewData["Empleados"] = employees;
         return View();
     }
 
-    [AcceptVerbs("Get", "Post")]
+    [AcceptVerbs("Get", "Post")] //Metodo para Confirmar Asistencia
     public async Task<dynamic> GetEmployeeByIdentification(string IdentificationNumber)
     {
         dynamic employee = await defaultService.GetEmployeeByIdentification(IdentificationNumber);
