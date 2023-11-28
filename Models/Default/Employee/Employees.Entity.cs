@@ -10,4 +10,7 @@ public class Employees
     public bool Asistencia { get; set; }
     public int NumeroRifa { get; set; }
     public bool SelRifa { get; set; }
+
+    public int? AwardsId { get; set; }
+    public Awards Awards { get; set; }
 }

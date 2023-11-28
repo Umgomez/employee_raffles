@@ -29,24 +29,33 @@ public class HomeController : BaseController
     [AcceptVerbs("Get", "Post")]
     public async Task<dynamic> GetWinner()
     {
+        dynamic NextAward = await GetNextAward();
         dynamic RandomEmployee = await GetRandomEmployeeAsync();
-        dynamic winner = await defaultService.GetEmployeeById(RandomEmployee.Data[0]["EmpleadoID"]);
-        return new JsonResult(new { aadata = winner });
+        dynamic win = await defaultService.GetEmployeeById(RandomEmployee.Data[0]["EmpleadoID"]);
+
+        return new JsonResult(new { winner = win, award = NextAward });
     }
 
     [AcceptVerbs("Get", "Post")]
-    public async Task<IActionResult> SetWinner(string EmpleadoID)
+    public async Task<IActionResult> SetWinner(string EmpleadoID, string AwardId)
     {
-        if (!string.IsNullOrEmpty(EmpleadoID))
+        if (!string.IsNullOrEmpty(EmpleadoID) || !string.IsNullOrEmpty(AwardId))
         {
             int empId = Convert.ToInt32(EmpleadoID);
+            int awardId = Convert.ToInt32(AwardId);
             var model = await context.Employees.FirstOrDefaultAsync(x => x.EmpleadoID == empId);
-            if (model != null)
+            var award = await context.Awards.FirstOrDefaultAsync(x => x.ID == awardId);
+            if (model != null && award != null)
             {
                 model.SelRifa = true;
+                model.AwardsId = award.ID;
+
+                award.IsSelected = true;
+
                 context.Employees.Update(model);
+                context.Awards.Update(award);
                 await context.SaveChangesAsync();
-            }               
+            }  
         }
 
         return View("Index");

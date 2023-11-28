@@ -93,22 +93,26 @@
             </div>
         
             <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg mt-6" role="document">
+                <div class="modal-dialog modal-lg mt-10" role="document">
                     <div class="modal-content border-0">
-                        <div class="position-absolute top-0 end-0 mt-3 me-3 z-1">
-                            <button id="close" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="position-absolute top-0 end-0 me-3 mt-3 z-1">
+                            <button id="close" class="btn-close btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-0">
-                            <div class="rounded-top-3 bg-body-tertiary py-3 ps-4 pe-6">
-                                <div class="lottie mx-auto" style="width: 100%; height: 450px;position:relative;" data-options='{"path":"../../../assets/img/animated-icons/congratulations.json"}'></div>
+
+                            <div class="bg-body-tertiary">
                                 <div class="bg-holder d-lg-block">
                                     <div class="lottie mx-auto" style="width: 100%; height: 450px;position:absolute;" data-options='{"path":"../../../assets/img/animated-icons/confetti.json"}'></div>
+                                    <div class="lottie mx-auto" style="width: 100%; height: 80px;position:relative;" data-options='{"path":"../../../assets/img/animated-icons/medalla.json"}'></div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 p-5">
-                                <div class="row">
+                            <div class="col-lg-12 px-3 py-3 pt-7">
+                                <div class="row text-center">
                                     <input id="empId" type="hidden" name="empId" />
-                                    <h1><span id="nombreApellido"></span></h1>
+                                    <input id="awardId" type="hidden" name="awardId" />
+                                    <strong class="text-primary text-bold fs-4" id="nombreApellido"></strong>
+                                    <span class="text-success text-bold fs-4" id="amount"></span>
+                                    <span class="text-info text-bold fs-2">Felicidades!</span>
                                 </div>
                             </div>
                         </div>
@@ -138,11 +142,13 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            let timer = document.getElementById('timer');
-            let btnGetWinner = document.getElementById('btnGetWinner');
-            let btnCloseModal = document.getElementById('close');
-            let nombreApellido = document.getElementById('nombreApellido');
-            let empId = document.getElementById('empId');
+            const timer = document.getElementById('timer');
+            const btnGetWinner = document.getElementById('btnGetWinner');
+            const btnCloseModal = document.getElementById('close');
+            const nombreApellido = document.getElementById('nombreApellido');
+            const empId = document.getElementById('empId');
+            const awardId = document.getElementById('awardId');
+            const amount = document.getElementById('amount');
 
             btnGetWinner.addEventListener("click", function () {
                 if (timer.classList.value == 'bg-holder invisible') {
@@ -161,14 +167,18 @@
                                 contentType: 'application/json',
                                 success: function (res) {
                                     JSON.stringify({ res });
-                                    nombreApellido.innerHTML = res.aadata.data[0].Nombres + ' ' + res.aadata.data[0].Apellidos;
-                                    empId.value = res.aadata.data[0].EmpleadoID;
+                                    console.log(res);
+                                    nombreApellido.innerHTML = res.winner.data[0].Nombres + ' ' + res.winner.data[0].Apellidos;
+                                    empId.value = res.winner.data[0].EmpleadoID;
+                                    awardId.value = res.award.data[0].ID;
+                                    amount.innerHTML = res.award.data[0].Amount;
+                                    //console.log("award " + res.award.data);
                                 },
                                 error: function (xhr, ajaxOptions, thrownError) {
                                     console.log(xhr.responseText);
                                 }
                             });
-                        }, 1000);
+                        }, 500);
                     }, 3000);
                 }
             }, true);
@@ -178,9 +188,9 @@
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("SetWinner", "Home")',
-                        data: { EmpleadoID: empId.value },
+                        data: { EmpleadoID: empId.value, AwardId: awardId.value },
                         success: function (data) {
-                            console.log("Actualizo");
+                            //console.log("Actualizo");
                             window.location.reload();
                         },
                         error: function (xhr, ajaxOptions, thrownError) {

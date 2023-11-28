@@ -12,6 +12,7 @@ public interface IDefaultService
     Task<Return> GetAttendance();
     Task<Return> GetEmployeeById(int id);
     Task<Return> GetEmployeeByIdentification(string identification);
+    Task<Return> GetNextAward();
 }
 public class DefaultService : IDefaultService
 {
@@ -61,6 +62,16 @@ public class DefaultService : IDefaultService
         var query = File.ReadAllText($"Data/Default/{file}.sql");
         var data = new Dictionary<string, object> { { "IdentificationNumber", identification } };
         query = await sql.QueryFormat(query, data);
+        var entityData = await sql.OneQuery(query);
+
+        return new Return($"File '{file}' data").SetData(entityData);
+    }
+
+    public async Task<Return> GetNextAward()
+    {
+        var sql = new Sql(this.context);
+        var file = "GetNextAward";
+        var query = File.ReadAllText($"Data/Default/{file}.sql");
         var entityData = await sql.OneQuery(query);
 
         return new Return($"File '{file}' data").SetData(entityData);

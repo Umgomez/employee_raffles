@@ -20,4 +20,9 @@ public class BaseController : Controller
     {
         return await defaultService.GetRandomEmployee();
     }
+
+    public async Task<dynamic> GetNextAward()
+    {
+        return await defaultService.GetNextAward();
+    }
 }

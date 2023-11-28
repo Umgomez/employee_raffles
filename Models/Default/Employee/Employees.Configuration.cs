@@ -18,6 +18,12 @@ public class EmployeesConfiguration
             opt.Property(x => x.Cedula)
               .HasMaxLength(50);
 
+            #region Relationships
+            opt.HasOne(x => x.Awards)
+              .WithMany()
+              .HasForeignKey(x => x.AwardsId);
+            #endregion
+
             #region Constranints
             opt.HasIndex(x => new { x.Tarjeta, x.Nombres, x.Apellidos, x.Cedula })
               .HasDatabaseName("UQ_Employees")
