@@ -13,6 +13,7 @@ public interface IDefaultService
     Task<Return> GetEmployeeById(int id);
     Task<Return> GetEmployeeByIdentification(string identification);
     Task<Return> GetNextAward();
+    Task<Return> GetListWinners();
 }
 public class DefaultService : IDefaultService
 {
@@ -71,6 +72,16 @@ public class DefaultService : IDefaultService
     {
         var sql = new Sql(this.context);
         var file = "GetNextAward";
+        var query = File.ReadAllText($"Data/Default/{file}.sql");
+        var entityData = await sql.OneQuery(query);
+
+        return new Return($"File '{file}' data").SetData(entityData);
+    }
+
+    public async Task<Return> GetListWinners()
+    {
+        var sql = new Sql(this.context);
+        var file = "GetListWinners";
         var query = File.ReadAllText($"Data/Default/{file}.sql");
         var entityData = await sql.OneQuery(query);
 

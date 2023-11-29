@@ -34,6 +34,7 @@
 	<ItemGroup>
 	  <None Remove="data\default\GetAttendance.sql" />
 	  <None Remove="data\default\GetEmployeeByIdentification.sql" />
+	  <None Remove="data\default\GetListWinners.sql" />
 	  <None Remove="data\default\GetNextAward.sql" />
 	</ItemGroup>
   <ItemGroup>

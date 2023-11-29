@@ -83,6 +83,7 @@
                                         </div>
                                         <div class="d-grid gap-2">
                                             <button id="btnGetWinner" class="btn btn-primary d-block w-100 mt-3 btn-lg" type="button"><i class="fa fas fa-medal"></i> Obtener Ganador</button>
+                                            <span id="msnEnd" class="text-danger text-bold fs-2"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -149,6 +150,7 @@
             const empId = document.getElementById('empId');
             const awardId = document.getElementById('awardId');
             const amount = document.getElementById('amount');
+            const msnEnd = document.getElementById('msnEnd');
 
             btnGetWinner.addEventListener("click", function () {
                 if (timer.classList.value == 'bg-holder invisible') {
@@ -157,7 +159,6 @@
                     setTimeout(function () {
                         timer.classList.remove("visible");
                         timer.classList.add("invisible");
-                        $('#staticBackdrop').modal('show');
 
                         setTimeout(function () {
                             $.ajax({
@@ -166,13 +167,18 @@
                                 dataType: 'JSON',
                                 contentType: 'application/json',
                                 success: function (res) {
-                                    JSON.stringify({ res });
-                                    console.log(res);
-                                    nombreApellido.innerHTML = res.winner.data[0].Nombres + ' ' + res.winner.data[0].Apellidos;
-                                    empId.value = res.winner.data[0].EmpleadoID;
-                                    awardId.value = res.award.data[0].ID;
-                                    amount.innerHTML = res.award.data[0].Amount;
-                                    //console.log("award " + res.award.data);
+                                    if (res.award.data.length > 0) {
+                                        JSON.stringify({ res });
+                                        nombreApellido.innerHTML = res.winner.data[0].Nombres + ' ' + res.winner.data[0].Apellidos;
+                                        empId.value = res.winner.data[0].EmpleadoID;
+                                        awardId.value = res.award.data[0].ID;
+                                        amount.innerHTML = res.award.data[0].Amount;
+                                        $('#staticBackdrop').modal('show');
+                                    }
+                                    else {
+                                        btnGetWinner.disabled = true;
+                                        msnEnd.innerHTML = "FIN";
+                                    }
                                 },
                                 error: function (xhr, ajaxOptions, thrownError) {
                                     console.log(xhr.responseText);
@@ -190,7 +196,6 @@
                         url: '@Url.Action("SetWinner", "Home")',
                         data: { EmpleadoID: empId.value, AwardId: awardId.value },
                         success: function (data) {
-                            //console.log("Actualizo");
                             window.location.reload();
                         },
                         error: function (xhr, ajaxOptions, thrownError) {

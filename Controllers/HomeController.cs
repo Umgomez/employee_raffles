@@ -62,6 +62,7 @@ public class HomeController : BaseController
     }
 
     [HttpGet]
+    [Route("asistencia")]
     public IActionResult ConfirmarAsistencia()
     {
         return View();
@@ -73,6 +74,15 @@ public class HomeController : BaseController
         dynamic employee = await defaultService.GetEmployeeByIdentification(IdentificationNumber);
         return new JsonResult(new { aadata = employee });
     }
+
+    [HttpGet]
+    [Route("winnerslist")]
+    public async Task<IActionResult> GetListWinners()
+    {
+        ViewData["Winners"] = await defaultService.GetListWinners();
+        return View();
+    }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
