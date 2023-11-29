@@ -112,7 +112,7 @@
                                     <input id="empId" type="hidden" name="empId" />
                                     <input id="awardId" type="hidden" name="awardId" />
                                     <strong class="text-primary text-bold fs-4" id="nombreApellido"></strong>
-                                    <span class="text-success text-bold fs-4" id="amount"></span>
+                                    <span class="text-warning text-bold fs-4" id="sequence"></span><span class="text-success text-bold fs-4" id="amount"></span>
                                     <span class="text-info text-bold fs-2">Felicidades!</span>
                                 </div>
                             </div>
@@ -151,6 +151,7 @@
             const awardId = document.getElementById('awardId');
             const amount = document.getElementById('amount');
             const msnEnd = document.getElementById('msnEnd');
+            const sequence = document.getElementById('sequence');
 
             btnGetWinner.addEventListener("click", function () {
                 if (timer.classList.value == 'bg-holder invisible') {
@@ -169,9 +170,11 @@
                                 success: function (res) {
                                     if (res.award.data.length > 0) {
                                         JSON.stringify({ res });
+                                        console.log(res);
                                         nombreApellido.innerHTML = res.winner.data[0].Nombres + ' ' + res.winner.data[0].Apellidos;
                                         empId.value = res.winner.data[0].EmpleadoID;
                                         awardId.value = res.award.data[0].ID;
+                                        sequence.innerHTML = "#" + res.award.data[0].Sequence;
                                         amount.innerHTML = res.award.data[0].Amount;
                                         $('#staticBackdrop').modal('show');
                                     }
