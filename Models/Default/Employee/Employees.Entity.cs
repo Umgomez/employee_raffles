@@ -1,4 +1,6 @@
-﻿namespace employee_raffles.Models.Default;
+﻿using System;
+
+namespace employee_raffles.Models.Default;
 
 public class Employees
 {
@@ -10,6 +12,7 @@ public class Employees
     public bool Asistencia { get; set; }
     public int NumeroRifa { get; set; }
     public bool SelRifa { get; set; }
+    public DateTime FechaAsistencia { get; set; }
 
     public int? AwardsId { get; set; }
     public Awards Awards { get; set; }

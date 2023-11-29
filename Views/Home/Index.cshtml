@@ -109,7 +109,7 @@
                                     <input id="awardId" type="hidden" name="awardId" />
                                     <strong class="text-primary text-bold fs-4" id="nombreApellido"></strong>
                                     <span class="text-warning text-bold fs-4" id="sequence"></span><span class="text-success text-bold fs-4" id="amount"></span>
-                                    <span class="text-info text-bold fs-2">Felicidades!</span>
+                                    <span class="text-info text-bold fs-2">¡Felicidades!</span>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                 success: function (res) {
                                     if (res.award.data.length > 0) {
                                         JSON.stringify({ res });
-                                        console.log(res);
+                                        //console.log(res);
                                         nombreApellido.innerHTML = res.winner.data[0].Nombres + ' ' + res.winner.data[0].Apellidos;
                                         empId.value = res.winner.data[0].EmpleadoID;
                                         awardId.value = res.award.data[0].ID;

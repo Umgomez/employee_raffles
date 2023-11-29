@@ -1,4 +1,6 @@
-﻿namespace employee_raffles.Models.ViewModels;
+﻿using System;
+
+namespace employee_raffles.Models.ViewModels;
 
 public class EmployeeViewModel
 {
@@ -9,4 +11,5 @@ public class EmployeeViewModel
     public bool Asistencia { get; set; }
     public int NumeroRifa { get; set; }
     public bool SelRifa { get; set; }
+    public DateTime FechaAsistencia { get; set; }
 }
