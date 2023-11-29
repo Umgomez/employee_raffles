@@ -96,11 +96,7 @@
             <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg mt-10" role="document">
                     <div class="modal-content border-0">
-                        <div class="position-absolute top-0 end-0 me-3 mt-3 z-1">
-                            <button id="close" class="btn-close btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
                         <div class="modal-body p-0">
-
                             <div class="bg-body-tertiary">
                                 <div class="bg-holder d-lg-block">
                                     <div class="lottie mx-auto" style="width: 100%; height: 450px;position:absolute;" data-options='{"path":"../../../assets/img/animated-icons/confetti.json"}'></div>
@@ -116,6 +112,14 @@
                                     <span class="text-info text-bold fs-2">Felicidades!</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 me-3 mb-3 z-1">
+                            <button id="close" class="btn btn-outline-success rounded-pill me-1 mb-1" data-bs-dismiss="modal" aria-label="Confirmar">
+                                <i class="far fa-smile"></i>
+                            </button>
+                            <button id="cancel" class="btn btn-outline-secondary rounded-pill me-1 mb-1" data-bs-dismiss="modal" aria-label="Cancel">
+                                <i class="far fa-tired"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -152,6 +156,7 @@
             const amount = document.getElementById('amount');
             const msnEnd = document.getElementById('msnEnd');
             const sequence = document.getElementById('sequence');
+            const btnCancel = document.getElementById('cancel');
 
             btnGetWinner.addEventListener("click", function () {
                 if (timer.classList.value == 'bg-holder invisible') {
@@ -207,6 +212,23 @@
                     });
                 }
             }, false);
+
+            btnCancel.addEventListener("click", function () {
+                if (empId.value !== null) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("OutWinner", "Home")',
+                        data: { EmpleadoID: empId.value },
+                        success: function (data) {
+                            window.location.reload();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+            }, false)
+
         });
     </script>
 </body>

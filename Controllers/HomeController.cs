@@ -61,6 +61,24 @@ public class HomeController : BaseController
         return View("Index");
     }
 
+    [AcceptVerbs("Get", "Post")]
+    public async Task<IActionResult> OutWinner(string EmpleadoID)
+    {
+        if (!string.IsNullOrEmpty(EmpleadoID))
+        {
+            int empId = Convert.ToInt32(EmpleadoID);
+            var model = await context.Employees.FirstOrDefaultAsync(x => x.EmpleadoID == empId);
+            if (model != null)
+            {
+                model.Asistencia = false;
+                context.Employees.Update(model);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        return View("Index");
+    }
+
     [HttpGet]
     [Route("asistencia")]
     public IActionResult ConfirmarAsistencia()
